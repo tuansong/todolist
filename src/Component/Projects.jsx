@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ProjectItem from './ProjectItem';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 class Project extends Component {
   constructor(props) {
@@ -9,6 +10,7 @@ class Project extends Component {
       items: []
     }
     this.handleRemove = this.handleRemove.bind(this);
+    this.handleDash = this.handleDash.bind(this);
   }
 
   handleChange = (event) => {
@@ -17,7 +19,7 @@ class Project extends Component {
 
   handleClick = () => {
     let newItems = this.state.items;
-    newItems.push(this.state.text);
+    newItems.push({text:this.state.text, dashed:false});
     this.setState({ items: newItems });
   }
 
@@ -31,11 +33,22 @@ class Project extends Component {
     this.setState({items : item})
   }
 
+  handleDash(e) {
+    console.log("Hello");
+    let item = [...this.state.items];
+    item[e].dashed = !this.state.items[e].dashed
+    this.setState({items : item});
+    console.log(this.state.items[e].dashed);
+  }
+
   render() {
+    let aTag = {
+      fontSize : "10px",
+    }
     return (
       <div>
-        <input type="text" onChange={this.handleChange} />
-        <button onClick={this.handleClick}>Submit</button>
+        <input type="text" onChange={this.handleChange} className="input bg-info" placeholder="TELL ME WHAT TO DO"/>
+        <a onClick={this.handleClick} className="text-info add"><FontAwesomeIcon icon="plus-circle"/></a>
         <br />
         <ProjectItem 
           items={this.state.items} 
